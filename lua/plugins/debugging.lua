@@ -3,15 +3,22 @@ return {
 		"mfussenegger/nvim-dap",
 		dependencies = {
 			"rcarriga/nvim-dap-ui",
-            "mfussenegger/nvim-dap-python",
-            "nvim-neotest/nvim-nio",
+			"mfussenegger/nvim-dap-python",
+			"nvim-neotest/nvim-nio",
+			"theHamsta/nvim-dap-virtual-text",
 		},
 		config = function()
+			local path = "~/.local/share/nvim/mason/packages/debugpy/venv/bin/python"
 			local dap = require("dap")
 			local dapui = require("dapui")
 
-            dapui.setup()
-            require("dap-python").setup()
+			require("nvim-dap-virtual-text").setup({
+				enabled = true,
+				virt_text_pos = "eol",
+			})
+
+			dapui.setup()
+			require("dap-python").setup(path)
 
 			dap.listeners.before.attach.dapui_config = function()
 				dapui.open()
@@ -26,8 +33,12 @@ return {
 				dapui.close()
 			end
 
-			vim.keymap.set("n", "<Leader>dt", function()
+			-- Mappings
+			vim.keymap.set("n", "<Leader>db", function()
 				dap.toggle_breakpoint()
+			end)
+			vim.keymap.set("n", "<Leader>dr", function()
+				require("dap-python").test_method()
 			end)
 			vim.keymap.set("n", "<Leader>dc", function()
 				dap.continue()

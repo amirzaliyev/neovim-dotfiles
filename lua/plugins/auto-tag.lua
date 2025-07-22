@@ -6,7 +6,7 @@ return {
             opts = {
                 enable_close = true,
                 enable_rename = true,
-                enable_close_on_slash = true,
+                enable_close_on_slash = false,
             },
 
             fold = {
@@ -16,10 +16,12 @@ return {
 
             per_filetype = {
                 ["html"] = {
-                    enable_close = false,
+                    enable_close = true,
+                    enable_rename = true,
                 },
                 ["htmldjango"] = {
-                    enable_close = false,
+                    enable_close = true,
+                    enable_rename = true,
                 },
             },
         })
